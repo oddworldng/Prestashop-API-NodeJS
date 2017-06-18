@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    form(method="POST",action="../../users")
+        label(for="username") Nombre
+        input(type="text",name="username",value='#{info[0].username}')
+        br
+        label(for="email") Email
+        input(type="text",name="email",value="#{info[0].email}")
+        br
+        input(type="hidden",name="_method",value="put")
+        input(type="hidden",name="id",value="#{info[0].id}")
+        br
+        input(type="submit",value="Enviar")
