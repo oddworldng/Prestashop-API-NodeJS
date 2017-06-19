@@ -3,7 +3,7 @@ var Order = require('../models/orders');
 /* App routes */
 module.exports = function(app) {
 
-    /* Get all customers */
+    /* Get all orders */
     app.get('/orders/', function (req, res) {
         Order.getOrders(function (error, data) {
             res.json(200, data);
