@@ -1,6 +1,6 @@
 # Prestashop API NodeJS
 
-API REST for [Prestashop](https://www.prestashop.com/es) with NodeJS.
+API REST for [Prestashop](https://www.prestashop.com/) with NodeJS.
 
 ## Description
 
@@ -13,11 +13,11 @@ Follow this steps to install and run this project:
 1. Install [NodeJS](http://nodejs.org/) in your server.
 2. Download this project.
 3. Execute ``npm start`` command into project folder.
-4. Now a webservice is running at port 3000 (by default).
+4. Now a webservice is running on port 3000 (by default).
 
 ## Configure
 
-To configure this API, edit ``./models/connection.js`` file and type your database configuration data.
+To configure this API edit ``./models/connection.js`` file and type your database configuration data.
 
 ## Usage
 
