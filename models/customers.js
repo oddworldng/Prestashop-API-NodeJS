@@ -4,7 +4,7 @@ var connection = require('./connection');
 var Customer = {};
 
 /* Get all customers */
-Customer.getUsers = function(callback) {
+Customer.getCustomers = function(callback) {
     if (connection) {
         connection.query('SELECT * FROM ps_customer ORDER BY id_customer', function(error, rows) {
             if(error) {
@@ -18,7 +18,7 @@ Customer.getUsers = function(callback) {
 }
 
 /* Get customer by Id */
-Customer.getUser = function(id, callback) {
+Customer.getCustomer = function(id, callback) {
     if (connection) {
         var sql = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
         connection.query(sql, function(error, row) {
@@ -27,6 +27,21 @@ Customer.getUser = function(id, callback) {
             }
             else {
                 callback(null, row);
+            }
+        });
+    }
+}
+
+/* Insert a new customer */
+Customer.insertCustomer = function(userData, callback) {
+    if (connection) {
+        connection.query('INSERT INTO ps_customer SET ?', userData, function(error, result) {
+            if(error) {
+                throw error;
+            }
+            else {
+                /* Return last insert ID */
+                callback(null,{"insertId" : result.insertId});
             }
         });
     }

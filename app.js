@@ -16,6 +16,7 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 
 /* Routes */
+require('./routes/index')(app); // Index
 require('./routes/customers')(app); // Customers
 require('./routes/orders')(app); // Orders
 require('./routes/products')(app); // Products
