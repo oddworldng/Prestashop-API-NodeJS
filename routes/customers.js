@@ -10,12 +10,24 @@ module.exports = function(app) {
     var today = dateFormat("yyyy-mm-dd h:MM:ss");
 
     /* Insert a new customer */
-    app.get('/customers/new', function(req, res){
+    app.get('/customers/post', function(req, res){
         res.render('customers', {
             title: 'Formulario para crear un nuevo cliente.',
             subtitle : 'Dar de alta un nuevo cliente en tu tienda Prestashop.',
-            btnText : 'Crear usuario',
+            btnText : 'Crear cliente',
+            action : '/customers/insert',
             type : 'insert'
+        });
+    });
+
+    /* Update a customer */
+    app.get('/customers/put', function(req, res){
+        res.render('customers', {
+            title: 'Formulario para actualizar un cliente existente.',
+            subtitle : 'Actualizar cliente existente en tu tienda Prestashop.',
+            btnText : 'Actualizar cliente',
+            action : '/customers/update',
+            type : 'update'
         });
     });
 
@@ -81,5 +93,30 @@ module.exports = function(app) {
                 res.json(500,{"msg":"Error"});
             }
         });
-    })
+    });
+
+    /* Update customer */
+    app.post("/customers/update", function(req, res) {
+        /* Store form data in an object */
+        var customerData = {
+            id_customer: req.param('id_customer'),
+            firstname: req.param('firstname'),
+            lastname: req.param('lastname'),
+            email: req.param('email')
+        }
+
+        Customer.updateCustomer(customerData, function(error, data) {
+            /* If updated id doesnt exists */
+            if (data.insertId == 0) {
+                res.json(500,{"msg" : "Error: no existe el cliente con ese ID."});
+            }else {
+                if(!error) {
+                    res.redirect("/customers/" + data.insertId);
+                }
+                else {
+                    res.json(500,{"msg" : "Error"});
+                }
+            }
+        });
+    });
 }

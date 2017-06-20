@@ -37,19 +37,29 @@ You can access to an specific field using syntax ``http://localhost:3000/<someth
 
 You can insert a new field using next forms:
 
-* New customer: ``http://localhost:3000/customers/new``
-* New product: ``http://localhost:3000/products/new``
-* New order: ``http://localhost:3000/orders/new``
+* New customer: ``http://localhost:3000/customers/post``
+* New product: ``http://localhost:3000/products/post``
+* New order: ``http://localhost:3000/orders/post``
 
 After insert a new field, you will be redirected to view all information about this customer, order or product. 
 
 ## Usage: PUT (UPDATE)
 
-Development in progress.
+You can update a new field using next forms typing an id:
+
+* Update customer: ``http://localhost:3000/customers/put``
+* Update product: ``http://localhost:3000/products/put``
+* Update order: ``http://localhost:3000/orders/put``
+
+After update a new field, you will be redirected to view all information about this customer, order or product. 
 
 ## Usage: DELETE
 
-Development in progress.
+You can delete a new field using next forms typing an id:
+
+* Delete customer: ``http://localhost:3000/customers/delete``
+* Delete product: ``http://localhost:3000/products/delete``
+* Delete order: ``http://localhost:3000/orders/delete``
 
 ## Author
 * **Andrés Nacimiento**. Computer Engineer at [University of La Laguna](https://www.ull.es/).

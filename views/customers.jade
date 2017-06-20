@@ -8,7 +8,13 @@ block content
         p= subtitle
         br
 
-        form(method="POST", action="/customers/insert")
+        form(method="POST", action="#{action}")
+
+            if type == 'update' || type == 'delete'
+                div.form-group
+                    label ID del Cliente
+                    input.form-control(type="number", name="id_customer", id="id_customer")
+                    br
 
             div.form-group
                 label Nombre
@@ -25,13 +31,13 @@ block content
                 input.form-control(type="text", name="email", id="email")
                 br
 
-            div.form-group
-                label Fecha de nacimiento
-                input.form-control(type="date", name="birthday", id="birthday", placeholder='1970-01-01 00:00:00')
-                br
-
             if type == 'insert'
-                 div.form-group
+                div.form-group
+                    label Fecha de nacimiento
+                    input.form-control(type="date", name="birthday", id="birthday", placeholder='1970-01-01 00:00:00')
+                    br
+
+                div.form-group
                     label Password
                     input.form-control(type="password", name="passwd", id="passwd")
                     br
