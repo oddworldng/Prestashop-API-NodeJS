@@ -31,6 +31,17 @@ module.exports = function(app) {
         });
     });
 
+    /* Delete a customer */
+    app.get('/customers/delete', function(req, res){
+        res.render('customers', {
+            title: 'Formulario para eliminar un cliente existente.',
+            subtitle : 'Eliminar cliente existente en tu tienda Prestashop.',
+            btnText : 'Eliminar cliente',
+            action : '/customers/del',
+            type : 'delete'
+        });
+    });
+
     /* Get all customers */
     app.get('/customers', function(req, res){
         Customer.getCustomers(function(error, data) {
@@ -46,7 +57,7 @@ module.exports = function(app) {
         });
     });
 
-    /* Insert a customer from /customers/new form (POST) */
+    /* Insert a customer from /customers/post form (POST) */
     app.post('/customers/insert', function(req, res){
 
         var customerData = {
@@ -95,7 +106,7 @@ module.exports = function(app) {
         });
     });
 
-    /* Update customer */
+    /* Update a customer from /customers/put form (PUT) */
     app.post("/customers/update", function(req, res) {
         /* Store form data in an object */
         var customerData = {
@@ -119,4 +130,19 @@ module.exports = function(app) {
             }
         });
     });
+
+    /* Delete a customer from /customers/delete form (DELETE) */
+    app.post("/customers/del", function(req, res) {
+        /* ID from customer to delete */
+        var id = req.param('id_customer');
+        Customer.deleteCustomer(id, function(error, data) {
+            if(data && data.msg === "Cliente eliminado") {
+                res.redirect("/customers/");
+            }
+            else {
+                res.json(500,{"msg" : data.msg});
+            }
+        });
+    });
+
 }

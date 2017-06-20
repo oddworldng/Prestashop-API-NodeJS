@@ -47,7 +47,7 @@ Customer.insertCustomer = function(customerData, callback) {
     }
 }
 
-/* Update a customer info */
+/* Update a customer */
 Customer.updateCustomer = function(customerData, callback) {
     if(connection) {
 
@@ -66,6 +66,30 @@ Customer.updateCustomer = function(customerData, callback) {
             }
         });
 
+    }
+}
+
+/* Update a customer */
+Customer.deleteCustomer = function(id, callback) {
+    if(connection) {
+        var sqlExists = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+        connection.query(sqlExists, function(err, row) {
+            /* If customer ID exists */
+            if(row != '') {
+                var sql = 'DELETE FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+                connection.query(sql, function(error, result) {
+                    if(error) {
+                        throw error;
+                    }
+                    else {
+                        callback(null,{"msg" : "Cliente eliminado"});
+                    }
+                });
+            }
+            else {
+                callback(null,{"msg" : "ERROR: No existe un cliente con id = " + id});
+            }
+        });
     }
 }
 
