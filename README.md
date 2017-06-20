@@ -39,7 +39,7 @@ You can insert a new field using next forms:
 
 * New customer: ``http://localhost:3000/customers/new``
 * New product: ``http://localhost:3000/products/new``
-* New order: ``http://localhost:3000/orders/new
+* New order: ``http://localhost:3000/orders/new``
 
 After insert a new field, you will be redirected to view all information about this customer, order or product. 
 
