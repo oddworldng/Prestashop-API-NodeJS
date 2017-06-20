@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
+var bodyParser = require('body-parser');
 var app = express();
 
 /* All environments */
@@ -8,6 +9,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* Create server */

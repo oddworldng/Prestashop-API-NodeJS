@@ -33,9 +33,9 @@ Customer.getCustomer = function(id, callback) {
 }
 
 /* Insert a new customer */
-Customer.insertCustomer = function(userData, callback) {
+Customer.insertCustomer = function(customerData, callback) {
     if (connection) {
-        connection.query('INSERT INTO ps_customer SET ?', userData, function(error, result) {
+        connection.query('INSERT INTO ps_customer SET ?', customerData, function(error, result) {
             if(error) {
                 throw error;
             }
