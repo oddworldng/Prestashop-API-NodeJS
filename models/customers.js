@@ -47,4 +47,23 @@ Customer.insertCustomer = function(customerData, callback) {
     }
 }
 
+/* Update a customer info */
+Customer.updateCustomer = function(customerData, callback) {
+    if(connection) {
+        var sql = 'UPDATE ps_customer SET firstname = ' + connection.escape(customerData.firstname) + ',' +
+            'lastname = ' + connection.escape(customerData.lastname) +
+            'email = ' + connection.escape(customerData.email) +
+            'WHERE id = ' + customerData.id_customer;
+
+        connection.query(sql, function(error, result) {
+            if(error) {
+                throw error;
+            }
+            else {
+                callback(null,{"msg":"success"});
+            }
+        });
+    }
+}
+
 module.exports = Customer;

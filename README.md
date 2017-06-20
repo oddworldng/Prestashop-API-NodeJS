@@ -19,7 +19,7 @@ Follow this steps to install and run this project:
 
 To configure this API edit ``./models/connection.js`` file and type your database configuration data.
 
-## Usage
+## Usage: GET
 
 You can access to all fields using next syntax:
 
@@ -33,6 +33,23 @@ You can access to an specific field using syntax ``http://localhost:3000/<someth
 * Products with id 3: ``http://localhost:3000/products/3``
 * Orders with id 7: ``http://localhost:3000/orders/7``
 
+## Usage: POST (INSERT)
+
+You can insert a new field using next forms:
+
+* New customer: ``http://localhost:3000/customers/new``
+* New product: ``http://localhost:3000/products/new``
+* New order: ``http://localhost:3000/orders/new
+
+After insert a new field, you will be redirected to view all information about this customer, order or product. 
+
+## Usage: PUT (UPDATE)
+
+Development in progress.
+
+## Usage: DELETE
+
+Development in progress.
 
 ## Author
 * **Andrés Nacimiento**. Computer Engineer at [University of La Laguna](https://www.ull.es/).

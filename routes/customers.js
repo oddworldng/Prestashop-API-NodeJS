@@ -11,7 +11,12 @@ module.exports = function(app) {
 
     /* Insert a new customer */
     app.get('/customers/new', function(req, res){
-        res.render('customers', { title: 'Formulario para crear un nuevo cliente.', subtitle : 'Dar de alta un nuevo cliente en tu tienda Prestashop.', btnText : 'Crear usuario' });
+        res.render('customers', {
+            title: 'Formulario para crear un nuevo cliente.',
+            subtitle : 'Dar de alta un nuevo cliente en tu tienda Prestashop.',
+            btnText : 'Crear usuario',
+            type : 'insert'
+        });
     });
 
     /* Get all customers */
