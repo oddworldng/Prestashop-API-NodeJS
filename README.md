@@ -6,6 +6,15 @@ API REST for [Prestashop](https://www.prestashop.com/) with NodeJS.
 
 This **API REST** is developed using **NodeJS** to access **Prestashop** basic information (customers, products and orders).
 
+## Architecture
+
+This **API REST** uses this technology:
+
+* NodeJS: to create API REST infrastructure with Express.
+* Jade: to create API REST templates.
+* MariaDB: database accessed.
+* Prestashop 1.7: client e-Commerce.
+
 ## Install and run
 
 Follow this steps to install and run this project:
