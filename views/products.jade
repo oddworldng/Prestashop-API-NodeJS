@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    .container
+
+        br
+        h1= title
+        p= subtitle
+        br
+
+        form(method="POST", action="#{action}")
+
+            if type == 'update' || type == 'delete'
+                div.form-group
+                    label ID del Producto
+                    input.form-control(type="number", name="id_product", id="id_product")
+                    br
+            if type != 'delete'
+                if type != 'update'
+                    div.form-group
+                        label Nombre
+                        input.form-control(type="text", name="name", id="name")
+                        br
+
+                    div.form-group
+                        label URL amigable
+                        input.form-control(type="text", name="link_rewrite", id="link_rewrite", placeholder="enlace-amigable")
+                        br
+
+                    div.form-group
+                        label Descripción
+                        input.form-control(type="text", name="description", id="description")
+                        br
+            if type == 'update' || type == 'insert'
+                div.form-group
+                    label Precio
+                    input.form-control(type="number" step=0.01, name="price", id="price")
+                    br
+                div.form-group
+                    label Referencia
+                    input.form-control(type="text", name="reference", id="reference")
+                    br
+
+
+            input.btn.btn-primary(type="submit", value="#{btnText}")

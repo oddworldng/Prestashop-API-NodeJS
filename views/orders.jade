@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    .container
+
+        br
+        h1= title
+        p= subtitle
+        br
+
+        form(method="POST", action="#{action}")
+
+            if type == 'update' || type == 'delete'
+                div.form-group
+                    label ID del Cliente
+                    input.form-control(type="number", name="id_customer", id="id_customer")
+                    br
+            if type != 'delete'
+                div.form-group
+                    label Nombre
+                    input.form-control(type="text", name="firstname", id="firstname")
+                    br
+
+                div.form-group
+                    label Primer apellido
+                    input.form-control(type="text", name="lastname", id="lastname")
+                    br
+
+                div.form-group
+                    label Email
+                    input.form-control(type="text", name="email", id="email")
+                    br
+
+                if type == 'insert'
+                    div.form-group
+                        label Fecha de nacimiento
+                        input.form-control(type="date", name="birthday", id="birthday", placeholder='1970-01-01 00:00:00')
+                        br
+
+                    div.form-group
+                        label Password
+                        input.form-control(type="password", name="passwd", id="passwd")
+                        br
+
+            input.btn.btn-primary(type="submit", value="#{btnText}")

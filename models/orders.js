@@ -1,12 +1,12 @@
 var connection = require('./connection');
 
-/* Orders object */
-var Order = {};
+/* Customers object */
+var Customer = {};
 
-/* Get all orders */
-Order.getOrders = function(callback) {
+/* Get all customers */
+Customer.getCustomers = function(callback) {
     if (connection) {
-        connection.query('SELECT * FROM ps_orders ORDER BY id_order', function(error, rows) {
+        connection.query('SELECT * FROM ps_customer ORDER BY id_customer', function(error, rows) {
             if(error) {
                 throw error;
             }
@@ -17,10 +17,10 @@ Order.getOrders = function(callback) {
     }
 }
 
-/* Get order by Id */
-Order.getOrder = function(id, callback) {
+/* Get customer by Id */
+Customer.getCustomer = function(id, callback) {
     if (connection) {
-        var sql = 'SELECT * FROM ps_orders WHERE id_order = ' + connection.escape(id);
+        var sql = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
         connection.query(sql, function(error, row) {
             if(error) {
                 throw error;
@@ -32,4 +32,65 @@ Order.getOrder = function(id, callback) {
     }
 }
 
-module.exports = Order;
+/* Insert a new customer */
+Customer.insertCustomer = function(customerData, callback) {
+    if (connection) {
+        connection.query('INSERT INTO ps_customer SET ?', customerData, function(error, result) {
+            if(error) {
+                throw error;
+            }
+            else {
+                /* Return last insert ID */
+                callback(null,{"insertId" : result.insertId});
+            }
+        });
+    }
+}
+
+/* Update a customer */
+Customer.updateCustomer = function(customerData, callback) {
+    if(connection) {
+
+        connection.query('SELECT id_customer FROM ps_customer WHERE id_customer = ' + connection.escape(customerData.id_customer), function(error, row) {
+            if (row == ''){
+                callback(null,{"insertId" : 0});
+            }else{
+                connection.query('UPDATE ps_customer SET ? WHERE id_customer = ' + parseInt(customerData.id_customer), customerData, function(error, result) {
+                    if(error) {
+                        throw error;
+                    }
+                    else {
+                        callback(null,{"insertId" : customerData.id_customer});
+                    }
+                });
+            }
+        });
+
+    }
+}
+
+/* Update a customer */
+Customer.deleteCustomer = function(id, callback) {
+    if(connection) {
+        var sqlExists = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+        connection.query(sqlExists, function(err, row) {
+            /* If customer ID exists */
+            if(row != '') {
+                var sql = 'DELETE FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+                connection.query(sql, function(error, result) {
+                    if(error) {
+                        throw error;
+                    }
+                    else {
+                        callback(null,{"msg" : "Cliente eliminado"});
+                    }
+                });
+            }
+            else {
+                callback(null,{"msg" : "ERROR: No existe un cliente con id = " + id});
+            }
+        });
+    }
+}
+
+module.exports = Customer;
