@@ -1,128 +1,147 @@
-var Customer = require('../models/customers');
+var Order = require('../models/orders');
 var dateFormat = require('dateformat');
+var randomstring = require("randomstring"); /* Used for generate orders reference */
 var md5 = require('md5');
 var uniqid = require('uniqid');
 var rand = require('rand');
 
-/* App routes */
+/* Orders routes */
 module.exports = function(app) {
 
     var today = dateFormat("yyyy-mm-dd h:MM:ss");
 
-    /* Insert a new customer */
-    app.get('/customers/post', function(req, res){
-        res.render('customers', {
-            title: 'Formulario para crear un nuevo cliente.',
-            subtitle : 'Dar de alta un nuevo cliente en tu tienda Prestashop.',
-            btnText : 'Crear cliente',
-            action : '/customers/insert',
+    /* Insert a new order */
+    app.get('/orders/post', function(req, res){
+        res.render('orders', {
+            title: 'Formulario para crear un nuevo pedido.',
+            subtitle : 'Dar de alta un nuevo pedido (orden) en tu tienda Prestashop.',
+            btnText : 'Crear pedido',
+            action : '/orders/insert',
+            host : req.headers.host,
             type : 'insert'
         });
     });
 
-    /* Update a customer */
-    app.get('/customers/put', function(req, res){
-        res.render('customers', {
-            title: 'Formulario para actualizar un cliente existente.',
-            subtitle : 'Actualizar cliente existente en tu tienda Prestashop.',
-            btnText : 'Actualizar cliente',
-            action : '/customers/update',
+    /* Update an order */
+    app.get('/orders/put', function(req, res){
+        res.render('orders', {
+            title: 'Formulario para actualizar un pedido existente.',
+            subtitle : 'Actualizar pedido (orden) existente en tu tienda Prestashop.',
+            btnText : 'Actualizar pedido',
+            action : '/orders/update',
+            host : req.headers.host,
             type : 'update'
         });
     });
 
-    /* Delete a customer */
-    app.get('/customers/delete', function(req, res){
-        res.render('customers', {
-            title: 'Formulario para eliminar un cliente existente.',
-            subtitle : 'Eliminar cliente existente en tu tienda Prestashop.',
-            btnText : 'Eliminar cliente',
-            action : '/customers/del',
+    /* Delete an order */
+    app.get('/orders/delete', function(req, res){
+        res.render('orders', {
+            title: 'Formulario para eliminar un pedido existente.',
+            subtitle : 'Eliminar pedido (orden) existente en tu tienda Prestashop.',
+            btnText : 'Eliminar pedido',
+            action : '/orders/del',
+            host : req.headers.host,
             type : 'delete'
         });
     });
 
-    /* Get all customers */
-    app.get('/customers', function(req, res){
-        Customer.getCustomers(function(error, data) {
+    /* Get all orders */
+    app.get('/orders', function(req, res){
+        Order.getOrders(function(error, data) {
             res.json(200,data);
         });
     });
 
-    /* Get an especific customer */
-    app.get('/customers/:id', function(req, res){
+    /* Get an especific order */
+    app.get('/orders/:id', function(req, res){
         var id = req.params.id;
-        Customer.getCustomer(id,function(error, data){
+        Order.getOrder(id, function(error, data){
             res.json(200, data);
         });
     });
 
-    /* Insert a customer from /customers/post form (POST) */
-    app.post('/customers/insert', function(req, res){
+    /* Insert an order from /orders/post form (POST) */
+    app.post('/orders/insert', function(req, res){
 
-        var customerData = {
-            id_customer : null,
+        var reference = randomstring.generate({length : 9, charset : 'alphabetic', capitalization : 'uppercase'});
+
+        var orderData = {
+            id_order : null,
+            reference : reference,
             id_shop_group : 1,
             id_shop : 1,
-            id_gender : 1,
-            id_default_group : 3,
+            id_carrier : 2,
             id_lang : 1,
-            id_risk : 0,
-            company : null,
-            siret : null,
-            ape : null,
-            firstname : req.body.firstname,
-            lastname : req.body.lastname,
-            email : req.body.email,
-            passwd : md5(req.body.passwd),
-            last_passwd_gen : today,
-            birthday : req.body.birthday,
-            newsletter : 1,
-            ip_registration_newsletter : null,
-            newsletter_date_add : today,
-            optin : 1,
-            website : null,
-            outstanding_allow_amount : 0.000000,
-            show_public_prices : 0,
-            max_payment_days : 0,
+            id_customer : req.body.id_customer,
+            id_cart : 1,
+            id_currency : 1,
+            id_address_delivery : 4,
+            id_address_invoice : 4,
+            current_state : 1,
             secure_key : md5(uniqid(rand(), true)),
-            note : null,
-            active : 1,
-            is_guest : 0,
-            deleted : 0,
+            payment : req.body.payment,
+            conversion_rate : 1.000000,
+            module : 'api_rest',
+            recyclable : 0,
+            gift : 0,
+            gift_message : null,
+            mobile_theme : 0,
+            shipping_number : null,
+            total_discounts : 0.000000,
+            total_discounts_tax_incl : 0.000000,
+            total_discounts_tax_excl : 0.000000,
+            total_paid : req.body.total_paid,
+            total_paid_tax_incl : req.body.total_paid,
+            total_paid_tax_excl : req.body.total_paid,
+            total_paid_real : 0.000000,
+            total_products : req.body.total_paid,
+            total_products_wt : req.body.total_paid,
+            total_shipping : 2.000000,
+            total_shipping_tax_incl : 2.000000,
+            total_shipping_tax_excl : 2.000000,
+            carrier_tax_rate : 0.000,
+            total_wrapping : 0.000000,
+            total_wrapping_tax_incl : 0.000000,
+            total_wrapping_tax_excl : 0.000000,
+            round_mode : 0,
+            round_type : 0,
+            invoice_number : 0,
+            delivery_number : 0,
+            invoice_date : '0000-00-00 00:00:00',
+            delivery_date : '0000-00-00 00:00:00',
+            valid : 0,
             date_add : today,
-            date_upd : today,
-            reset_password_token : null,
-            reset_password_validity : '0000-00-00 00:00:00'
+            date_upd : today
         }
 
-        Customer.insertCustomer(customerData, function(error, data){
+        Order.insertOrder(orderData, function(error, data){
             if(data && data.insertId) {
-                res.redirect("/customers/" + data.insertId);
+                res.redirect("/orders/" + data.insertId);
             }
             else {
-                res.json(500,{"msg":"Error"});
+                res.json(500,{"msg" : "Error"});
             }
         });
     });
 
-    /* Update a customer from /customers/put form (PUT) */
-    app.post("/customers/update", function(req, res) {
+    /* Update an order from /order/put form (PUT) */
+    app.post("/orders/update", function(req, res) {
         /* Store form data in an object */
-        var customerData = {
+        var orderData = {
+            id_order: req.param('id_order'),
             id_customer: req.param('id_customer'),
-            firstname: req.param('firstname'),
-            lastname: req.param('lastname'),
-            email: req.param('email')
+            payment: req.param('payment'),
+            total_paid: req.param('total_paid')
         }
 
-        Customer.updateCustomer(customerData, function(error, data) {
+        Order.updateOrder(orderData, function(error, data) {
             /* If updated id doesnt exists */
             if (data.insertId == 0) {
                 res.json(500,{"msg" : "Error: no existe el cliente con ese ID."});
             }else {
                 if(!error) {
-                    res.redirect("/customers/" + data.insertId);
+                    res.redirect("/orders/" + data.insertId);
                 }
                 else {
                     res.json(500,{"msg" : "Error"});
@@ -131,13 +150,13 @@ module.exports = function(app) {
         });
     });
 
-    /* Delete a customer from /customers/delete form (DELETE) */
-    app.post("/customers/del", function(req, res) {
-        /* ID from customer to delete */
-        var id = req.param('id_customer');
-        Customer.deleteCustomer(id, function(error, data) {
-            if(data && data.msg === "Cliente eliminado") {
-                res.redirect("/customers/");
+    /* Delete an order from /orders/delete form (DELETE) */
+    app.post("/orders/del", function(req, res) {
+        /* ID from orders to delete */
+        var id = req.param('id_order');
+        Order.deleteOrder(id, function(error, data) {
+            if(data && data.msg === "Pedido eliminado") {
+                res.redirect("/orders/");
             }
             else {
                 res.json(500,{"msg" : data.msg});

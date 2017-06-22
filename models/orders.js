@@ -1,12 +1,12 @@
 var connection = require('./connection');
 
-/* Customers object */
-var Customer = {};
+/* Orders object */
+var Order = {};
 
-/* Get all customers */
-Customer.getCustomers = function(callback) {
+/* Get all orders */
+Order.getOrders = function(callback) {
     if (connection) {
-        connection.query('SELECT * FROM ps_customer ORDER BY id_customer', function(error, rows) {
+        connection.query('SELECT * FROM ps_orders ORDER BY id_order', function(error, rows) {
             if(error) {
                 throw error;
             }
@@ -17,10 +17,10 @@ Customer.getCustomers = function(callback) {
     }
 }
 
-/* Get customer by Id */
-Customer.getCustomer = function(id, callback) {
+/* Get order by Id */
+Order.getOrder = function(id, callback) {
     if (connection) {
-        var sql = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+        var sql = 'SELECT * FROM ps_orders WHERE id_order = ' + connection.escape(id);
         connection.query(sql, function(error, row) {
             if(error) {
                 throw error;
@@ -32,10 +32,10 @@ Customer.getCustomer = function(id, callback) {
     }
 }
 
-/* Insert a new customer */
-Customer.insertCustomer = function(customerData, callback) {
+/* Insert a new order */
+Order.insertOrder = function(orderData, callback) {
     if (connection) {
-        connection.query('INSERT INTO ps_customer SET ?', customerData, function(error, result) {
+        connection.query('INSERT INTO ps_orders SET ?', orderData, function(error, result) {
             if(error) {
                 throw error;
             }
@@ -47,20 +47,20 @@ Customer.insertCustomer = function(customerData, callback) {
     }
 }
 
-/* Update a customer */
-Customer.updateCustomer = function(customerData, callback) {
+/* Update an Order */
+Order.updateOrder = function(orderData, callback) {
     if(connection) {
 
-        connection.query('SELECT id_customer FROM ps_customer WHERE id_customer = ' + connection.escape(customerData.id_customer), function(error, row) {
+        connection.query('SELECT ps_orders FROM ps_orders WHERE id_order = ' + connection.escape(orderData.id_order), function(error, row) {
             if (row == ''){
                 callback(null,{"insertId" : 0});
             }else{
-                connection.query('UPDATE ps_customer SET ? WHERE id_customer = ' + parseInt(customerData.id_customer), customerData, function(error, result) {
+                connection.query('UPDATE ps_orders SET ? WHERE id_order = ' + parseInt(orderData.id_order), orderData, function(error, result) {
                     if(error) {
                         throw error;
                     }
                     else {
-                        callback(null,{"insertId" : customerData.id_customer});
+                        callback(null,{"insertId" : orderData.id_order});
                     }
                 });
             }
@@ -69,28 +69,28 @@ Customer.updateCustomer = function(customerData, callback) {
     }
 }
 
-/* Update a customer */
-Customer.deleteCustomer = function(id, callback) {
+/* Update an Order */
+Order.deleteOrder = function(id, callback) {
     if(connection) {
-        var sqlExists = 'SELECT * FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+        var sqlExists = 'SELECT * FROM ps_orders WHERE id_order = ' + connection.escape(id);
         connection.query(sqlExists, function(err, row) {
-            /* If customer ID exists */
+            /* If order ID exists */
             if(row != '') {
-                var sql = 'DELETE FROM ps_customer WHERE id_customer = ' + connection.escape(id);
+                var sql = 'DELETE FROM ps_orders WHERE id_order = ' + connection.escape(id);
                 connection.query(sql, function(error, result) {
                     if(error) {
                         throw error;
                     }
                     else {
-                        callback(null,{"msg" : "Cliente eliminado"});
+                        callback(null,{"msg" : "Pedido eliminado"});
                     }
                 });
             }
             else {
-                callback(null,{"msg" : "ERROR: No existe un cliente con id = " + id});
+                callback(null,{"msg" : "ERROR: No existe un pedido con id = " + id});
             }
         });
     }
 }
 
-module.exports = Customer;
+module.exports = Order;
