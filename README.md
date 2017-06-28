@@ -12,6 +12,7 @@ This **API REST** uses this technology:
 
 * NodeJS: to create API REST infrastructure with Express.
 * Jade: to create API REST templates.
+* Bootstrap: to improve templates design.
 * MariaDB: database accessed.
 * Prestashop 1.7: client e-Commerce.
 
